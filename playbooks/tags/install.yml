@@ -1,0 +1,23 @@
+---
+- name: tag example
+  hosts: centos
+  tasks:
+    - name: install net analysis packages
+      package:
+        name: "{{ item }}"
+        state: installed
+      with_items:
+        - nmap
+        - wireshark
+      tags:
+        - net_analysis
+    - name: install lamp packages
+      package:
+        name: "{{ item }}"
+        state: installed
+      with_items:
+        - mariadb-server
+        - httpd 
+      tags:
+        - lamp
+

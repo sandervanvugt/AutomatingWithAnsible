@@ -1,0 +1,20 @@
+---
+- name: block example
+  hosts: all
+  tasks:
+    - name: install apache
+      block:
+        - package:
+            name: "{{ item }}" 
+            state: installed
+          with_items:
+            - httpd
+            - elinks
+            - mod_ssl
+        - service:
+            name: httpd
+            state: started
+            enabled: True
+      when: ansible_distribution == 'CentOS'
+
+      

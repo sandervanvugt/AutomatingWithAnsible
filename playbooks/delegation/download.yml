@@ -1,0 +1,19 @@
+---
+- name: download large file
+  hosts: ansible2.example.com
+  tasks:
+    - name: download large file
+      get_url:
+        url: https://www.rhatcert.com/pub/labipa-3.2.zip
+        dest: /tmp/
+      async: 7200
+      poll: 0
+      register: background_download
+    - name: wait for download completion
+      async_status:
+        jid: "{{ background_download.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 30
+      delay: 120
+    

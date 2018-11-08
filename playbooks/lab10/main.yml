@@ -1,0 +1,54 @@
+---
+- hosts: all
+  vars:
+
+  tasks:
+
+- hosts: webservers
+  tasks:
+    - name: include the variable file
+      include_vars: vars/webservers.yml
+
+    - name: install packages
+      package: 
+        name: "{{ web_packages }}"
+        state: latest
+
+    - name: copy template
+      template:
+        src: templates:/httpd.j2
+        dest: "{{ web_config_file }}"
+        owner: root
+        group: root
+        mode: 0644
+      notify: 
+        - restart_web
+
+    - name: start service
+      service: 
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: open port in firewall
+      firewalld:
+        service: "{{ firewall_service }}"
+        state: enabled
+        immediate: true
+        permanent: true
+
+  handlers:
+    - name: restart_web
+      service:
+        name: httpd
+        state: restarted
+
+- hosts: webclients
+  tasks:
+    - name: install packages
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - elinks
+        - wget

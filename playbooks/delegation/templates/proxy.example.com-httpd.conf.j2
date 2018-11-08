@@ -1,0 +1,4 @@
+#{{ ansible_managed }}
+
+ProxyPass "/external" "http://{{ ansible_hostname}}"
+ProxyPassReverse "/external" "http://{{ ansible_hostname }}"

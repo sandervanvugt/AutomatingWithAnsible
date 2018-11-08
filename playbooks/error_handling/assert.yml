@@ -1,0 +1,11 @@
+---
+- name: test for file existence
+  hosts: ansible2.example.com
+  tasks:
+    - stat:
+        path: /etc/osts
+      register: hosts
+
+    - assert:
+        that: 
+          - hosts.stat.exists

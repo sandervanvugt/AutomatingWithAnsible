@@ -1,0 +1,10 @@
+- name: create an ubuntu instance on EC2
+  hosts: localhost
+  tasks:
+  - name: start the instance
+    ec2:
+      image: ami-09eb876a926ae86db
+      region: us-west-2
+      instance_type: t2.nano
+      key_name: june2018
+      group: all-open

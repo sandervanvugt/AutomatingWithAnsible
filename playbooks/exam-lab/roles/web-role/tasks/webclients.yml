@@ -1,0 +1,9 @@
+- hosts: webclients
+  tasks:
+    - name: install packages
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - elinks
+        - wget

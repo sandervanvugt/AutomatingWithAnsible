@@ -1,0 +1,12 @@
+---
+- name: manage ufw firewall
+  ufw:
+    port: "{{ item }}"
+    rule: allow
+
+  with_items:
+    - ssh
+    - ftp
+    - http
+  
+  

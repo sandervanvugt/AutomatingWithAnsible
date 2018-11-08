@@ -1,0 +1,11 @@
+---
+- name: create user accounts on all servers
+  hosts: all
+  vars_files:
+  - vars/secret.yml
+  tasks:
+  - name: create users from secret.yml
+    user:
+      name: "{{ item.name }}"
+      password: "{{ item.pw | password_hash('sha512')}}"
+    with_items: "{{ newusers }}"

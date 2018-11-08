@@ -1,0 +1,4 @@
+web_packages: httpd
+web_service: httpd
+web_config_file: /etc/httpd/conf/httpd.conf
+firewall_service: http

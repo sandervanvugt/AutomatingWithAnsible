@@ -1,0 +1,6 @@
+[webservers]
+ansible1.example.com
+
+[webclients]
+ansible2.example.com
+ansible3.example.com

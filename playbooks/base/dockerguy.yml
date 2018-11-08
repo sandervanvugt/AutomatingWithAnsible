@@ -1,0 +1,6 @@
+---
+- name: use role to install docker
+  hosts: ansible2.example.com
+
+  roles:
+    - geerlingguy.docker

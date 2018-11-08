@@ -1,0 +1,24 @@
+---
+- name: test add host
+  hosts: localhost
+  tasks:
+    - name: add another host
+      add_host:
+        name: proxy
+        ansible_host: 192.168.4.232
+        ansible_user: ansible
+
+    - name: show where the command has been running
+      command: hostname
+      delegate_to: proxy
+      register: command1
+
+    - name: show how facts are handled
+      command: echo "this is on {{ inventory_hostname }}"
+      delegate_to: proxy
+      register: output
+
+    - debug:
+        msg: "{{ command1.stdout }}"
+    - debug: 
+        msg: "{{ output.stdout }}"

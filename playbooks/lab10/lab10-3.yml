@@ -1,0 +1,7 @@
+---
+- name: setup web environment
+  hosts: all
+
+  roles:
+  - web-role
+  - mountweb

@@ -1,0 +1,13 @@
+---
+- name: check URL
+  hosts: ansible2.example.com
+  tasks:
+    - uri:
+        url: http://sandervanvugt.com
+        return_content: yes
+      register: webpage
+
+    - name: Fail if sander is not in the page content
+      fail:
+        msg: 'not the right content'
+      when: "'sander' not in webpage.content"

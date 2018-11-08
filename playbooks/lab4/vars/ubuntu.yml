@@ -1,0 +1,12 @@
+---
+[packages]
+web_package: apache2
+ftp_package: vsftpd
+db_package: mysql-server
+firewall_package: ufw
+
+[services]
+web_service: apache2
+ftp_package: vsftpd
+db_package: mysql
+firewall_service: ufw

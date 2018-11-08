@@ -1,0 +1,11 @@
+---
+- name: download a big file
+  hosts: all
+  serial: 2
+  tasks: 
+    - name: start download
+      get_url:
+        url: http://192.168.122.1/largefile
+      async: 1800
+      poll: 30
+  

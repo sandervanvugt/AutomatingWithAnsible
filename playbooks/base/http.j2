@@ -1,0 +1,8 @@
+Listen *:80
+NameVirtualHost {{ ansible_fqdn }}
+
+<VirtualHost {{ ansible_fqdn }}:80>
+  ServerName {{ ansible_fqdn }}
+  ServerAdmin {{ system_owner }}
+  DocumentRoot /var/www/html
+</VirtualHost>

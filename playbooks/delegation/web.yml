@@ -1,0 +1,67 @@
+---
+- name: install and configure apache
+  hosts: ansible2.example.com,proxy.example.com
+  tasks:
+    - name: install apache
+      package: 
+        name: httpd
+        state: installed
+    - name: start and enable apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+    - name: install firewalld
+      package: 
+        name: firewalld
+        state: installed
+    - name: start and enable firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+    - name: configure firewalld
+      firewalld:
+        zone: public
+        service: http
+        permanent: true
+        immediate: true
+        state: enabled
+    - name: copy webserver template
+      template:
+        src: "templates/{{ inventory_hostname }}-httpd.conf.j2"
+        dest: /etc/httpd/conf.d/ansible.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - restart httpd
+
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted
+
+- name: deploy apache and disable proxy server
+  hosts: webservers
+  tasks:
+    - name: stop apache proxy
+      service: 
+        name: httpd
+        state: stopped
+      delegate_to: "{{ item }}"
+      with_items: "{{ groups['proxyservers'] }}"
+    - name: deploy webpages
+      template:
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: 0644
+    - name: start apache proxy server
+      service:
+        name: httpd
+        state: started
+      delegate_to: "{{ item }}"
+      with_items: "{{ groups['proxyservers'] }}"

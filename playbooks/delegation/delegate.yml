@@ -1,0 +1,22 @@
+---
+- name: understand delegate_to
+  hosts: ansible2.example.com
+  tasks:
+    - name: get process information
+      command: ps
+      register: remote_process
+      changed_when: false
+
+    - name: get localhost processes
+      command: ps
+      delegate_to: localhost
+      register: local_process
+      changed_when: false
+
+    - name: display information about localhost processes
+      debug: 
+        msg: "{{ local_process.stdout }}"
+
+    - name: show information about remotehost processes
+      debug:
+        msg: "{{ remote_process.stdout }}"
